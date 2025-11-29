@@ -1,6 +1,5 @@
 /*
- * no bank conflicts reduction case:
- *  start at large stride, work down
+ * reduce idle threads
  */
 
 #include <cuda_device_runtime_api.h>
