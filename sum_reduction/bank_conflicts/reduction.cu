@@ -1,3 +1,9 @@
+/*
+ * bank reduction case:
+ *  to use sequential threads we calculate index
+ *  as shown below
+ */
+
 #include <cuda_device_runtime_api.h>
 #include <cuda_runtime.h>
 #include <assert.h>
@@ -19,10 +25,13 @@ __global__ void reduction(float *v, float *v_r) {
   __syncthreads();
 
   for (int s = 1; s < blockDim.x; s *= 2) { // iterate strides in block
-    if (threadIdx.x % (2*s) == 0) {
-      psum[threadIdx.x] += psum[threadIdx.x + s];
+    // ! THIS IS THE ONLY CHANGED PART
+    int index = 2 * s * threadIdx.x;
+
+    if (index < blockDim.x) {
+      psum[index] += psum[index + s];
     }
-      __syncthreads(); // wait for this step to be done
+    __syncthreads(); // wait for this step to be done
   }
 
   if (threadIdx.x == 0) { // set the first thread in this block
