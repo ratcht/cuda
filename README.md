@@ -5,7 +5,7 @@ GPU kernel implementations (+ assembled torch operations) in CUDA & Triton. This
 ## Repository Structure
 
 ```
-kernel/
+popcorn/
 ├── cuda/              # CUDA kernels
 ├── triton/            # Triton kernels (planned)
 ├── torch_op/          # PyTorch implementations
